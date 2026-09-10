@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ワンダフル・インドネシア｜観光地ガイド</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700;900&family=Cinzel+Decorative:wght@700&family=Playfair+Display:wght@600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- jQuery + jQuery UI -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-darkness/jquery-ui.css" />
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Google Maps API -->
+  <script>
+    function initMap() {
+      window.mapsReady = true;
+      if (window.onMapsReady) window.onMapsReady();
+    }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAKLjisxFelKwIl1_G6MiEO9-ya7Twr5s&callback=initMap&libraries=maps,marker&loading=async"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/common.css">
+</head>
+<body>
+
+<!-- preloader -->
+<div id="preloader">
+  <div class="preloaderLogo">Wonderful Indonesia</div>
+  <div class="preloaderText">インドネシア観光地ガイドを読み込み中...</div>
+  <div class="preloaderBar"><div class="preloaderFill"></div></div>
+</div>
+
+<!-- navbar -->
+<nav id="navbar">
+  <div class="navLogo">🌴 Wonderful Indonesia</div>
+  <ul class="navLinks">
+    <li><a href="#layer1">トップ</a></li>
+    <li><a href="#islandMapSection">島マップ</a></li>
+    <li><a href="#destinations">観光スポット</a></li>
+    <li><a href="#gallery">ギャラリー</a></li>
+    <li><a href="#gmapSection">地図</a></li>
+  </ul>
+</nav>
+
+<!-- layer1 -->
+<section id="layer1">
+  <div class="layer1Bg"></div>
+  <div class="layer1Overlay"></div>
+  <div class="layer1Content">
+    <div class="layer1Badge">✦ Wonderful Indonesia ✦</div>
+    <h1 class="layer1Title">インドネシア<br/>観光地探索</h1>
+    <p class="layer1Subtitle">17,000以上の島々に広がる<br/>無限の自然・文化・冒険の世界へ</p>
+    <div class="layer1Stats">
+      <div class="statItem">
+        <span class="statNum">17K+</span>
+        <span class="statLabel">島の数</span>
+      </div>
+      <div class="statItem">
+        <span class="statNum">300+</span>
+        <span class="statLabel">民族</span>
+      </div>
+      <div class="statItem">
+        <span class="statNum">9</span>
+        <span class="statLabel">世界遺産</span>
+      </div>
+      <div class="statItem">
+        <span class="statNum">∞</span>
+        <span class="statLabel">体験</span>
+      </div>
+    </div>
+    <a href="#islandMapSection" class="layer1Btn">
+      <i class="fas fa-map-marked-alt"></i> 島を探索する
+    </a>
+  </div>
+  <div class="scrollDown">
+    <i class="fas fa-chevron-down" style="font-size:1.5rem;"></i>
+  </div>
+</section>
+
+<!-- map -->
+<section id="islandMapSection">
+  <div class="sectionHeader reveal">
+    <span class="sectionTag">✦ Interactive Map ✦</span>
+    <h2 class="sectionTitle">インドネシア諸島マップ</h2>
+    <p class="sectionDesc">地域をクリックすると詳細な観光情報が表示されます</p>
+    <div class="sectionDivider"></div>
+  </div>
+  <div class="islandMapContainer reveal">
+    <div class="leafletMapWrapper">
+      <!-- Leaflet Map  -->
+      <div id="leafletMap"></div>
+    </div>
+    <p class="mapInfoText">
+      <i class="fas fa-info-circle" style="color:#c9a84c;"></i>
+      各地域をクリックして詳しい観光情報をご覧ください
+    </p>
+  </div>
+  <!-- Info Card -->
+  <div class="infoCard" id="infoCard">
+    <div class="cardImage">
+      <img id="cardImage" src="" alt="">
+      <div class="imageOverlay"></div>
+      <button class="closeBtn" id="closeCard"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cardContent">
+      <h2 id="cardTitle"></h2>
+      <p id="cardDesc"></p>
+      <div class="cardTags" id="cardTags"></div>
+      <button class="detailBtn" id="detailBtn">
+        <i class="fas fa-map-marker-alt"></i> Google Mapsで見る
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- destinations -->
+<section id="destinations" style="background:#0d1117;">
+  <div class="sectionHeader reveal">
+    <span class="sectionTag">✦ Featured Destinations ✦</span>
+    <h2 class="sectionTitle">人気観光スポット</h2>
+    <p class="sectionDesc">インドネシア全土のおすすめ観光スポットをご紹介します</p>
+    <div class="sectionDivider"></div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filterTabs reveal" style="max-width:1200px;margin:0 auto 40px;padding:0 20px;">
+    <button class="filterBtn active" data-filter="all">すべて</button>
+    <button class="filterBtn" data-filter="nature">自然</button>
+    <button class="filterBtn" data-filter="culture">文化</button>
+    <button class="filterBtn" data-filter="beach">ビーチ</button>
+    <button class="filterBtn" data-filter="adventure">冒険</button>
+    <button class="filterBtn" data-filter="heritage">世界遺産</button>
+  </div>
+
+  <div class="destinationsGrid" id="destGrid">
+    <!-- Cards injected by JS -->
+  </div>
+</section>
+
+<!-- GALLERY SECTION -->
+<section id="gallery">
+  <div class="sectionHeader reveal">
+    <span class="sectionTag">✦ Photo Gallery ✦</span>
+    <h2 class="sectionTitle">フォトギャラリー</h2>
+    <p class="sectionDesc">インドネシアの美しい風景をご覧ください</p>
+    <div class="sectionDivider"></div>
+  </div>
+  <div class="gallerySlider reveal">
+    <div class="galleryArrow galleryPrev" id="gallPrev"><i class="fas fa-chevron-left"></i></div>
+    <div class="galleryTrack" id="gallTrack">
+      <div class="galleryItem">
+        <img src="./images/borobudur.avif" alt="ボロブドゥール" loading="lazy"/>
+        <div class="galleryCaption">ボロブドゥール寺院 – 中部ジャワ</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/ubud.avif" alt="バリ棚田" loading="lazy"/>
+        <div class="galleryCaption">バリ島の棚田 – ウブド</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/bromo.avif" alt="ブロモ山" loading="lazy"/>
+        <div class="galleryCaption">ブロモ山の日の出 – 東ジャワ</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/rajaampat.avif" alt="ラジャ・アンパット" loading="lazy"/>
+        <div class="galleryCaption">ラジャ・アンパット – 西パプア</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/danautoba.avif" alt="トバ湖" loading="lazy"/>
+        <div class="galleryCaption">トバ湖 – 北スマトラ</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/tanatoraja.avif" alt="コモド" loading="lazy"/>
+        <div class="galleryCaption">コモド国立公園 – 東ヌサ・トゥンガラ</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/pemandanganrajaampat.avif" alt="ラジャアンパット2" loading="lazy"/>
+        <div class="galleryCaption">ラジャ・アンパット絶景 – パプア</div>
+      </div>
+      <div class="galleryItem">
+        <img src="./images/komodo.avif" alt="コモドドラゴン" loading="lazy"/>
+        <div class="galleryCaption">コモドドラゴン – コモド島</div>
+      </div>
+    </div>
+    <div class="galleryArrow galleryNext" id="gallNext"><i class="fas fa-chevron-right"></i></div>
+    <div class="galleryNav" id="gallNav"></div>
+  </div>
+</section>
+
+<!-- googlemaps -->
+<section id="gmapSection" style="background:linear-gradient(180deg,#0d1117 0%,#0a1628 100%);padding-bottom:0;">
+  <div class="sectionHeader reveal">
+    <span class="sectionTag">✦ Google Maps ✦</span>
+    <h2 class="sectionTitle">インタラクティブ観光地図</h2>
+    <p class="sectionDesc">地図上のピンをクリックして観光スポットの詳細情報をご覧ください</p>
+    <div class="sectionDivider"></div>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 20px 80px;">
+    <div style="border-radius:20px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);box-shadow:0 20px 60px rgba(0,0,0,0.5);position:relative;">
+      <div id="mapContainer" style="width:100%;height:520px;position:relative;">
+        <div id="inlineMap" style="width:100%;height:100%;"></div>
+        <div id="mapLoadingIndicator" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;pointer-events:none;z-index:1;">
+          <div style="width:48px;height:48px;border:3px solid rgba(201,168,76,0.2);border-top-color:#c9a84c;border-radius:50%;animation:spin 1s linear infinite;"></div>
+          <p style="color:#9aacb8;font-size:0.9rem;">マップを読み込み中...</p>
+        </div>
+      </div>
+    </div>
+    <p class="mapInfoText" style="text-align:center;color:#9aacb8;font-size:0.82rem;margin-top:14px;">
+      <i class="fas fa-map-pin" style="color:#c9a84c;"></i> ピンをクリックすると観光スポットの詳細が表示されます
+    </p>
+  </div>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="footerGrid">
+    <div class="footerBrand">
+      <h3>🌴 Wonderful Indonesia</h3>
+      <p>インドネシア観光省公式サイトを考えた。<br/>17,000以上の島々の素晴らしい観光スポットをご紹介しています。<br/>自然・文化・冒険のすべてがここにあります。</p>
+      <div class="socialLinks">
+        <a href="#" class="socialLink"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="socialLink"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="socialLink"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="socialLink"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footerCol">
+      <h4>観光スポット</h4>
+      <ul>
+        <li><a href="#">バリ島</a></li>
+        <li><a href="#">ボロブドゥール</a></li>
+        <li><a href="#">コモド国立公園</a></li>
+        <li><a href="#">ラジャ・アンパット</a></li>
+        <li><a href="#">ブロモ山</a></li>
+        <li><a href="#">トバ湖</a></li>
+      </ul>
+    </div>
+    <div class="footerCol">
+      <h4>旅行情報</h4>
+      <ul>
+        <li><a href="#">ビザ情報</a></li>
+        <li><a href="#">交通手段</a></li>
+        <li><a href="#">ベストシーズン</a></li>
+        <li><a href="#">現地通貨</a></li>
+        <li><a href="#">旅行保険</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footerBottom">
+    <p style="color:#c9a84c;">copyright &copy; <script>new Date().getFullYear() > 2000 && document.write("" + new Date().getFullYear());</script> Wonderful Indonesia Fahrul Irfanul Iman . All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- modal -->
+<div class="gmapOverlay" id="gmapOverlay">
+  <div class="gmapModal">
+    <div class="gmapHeader">
+      <h3 id="gmapModalTitle"><i class="fas fa-map-marker-alt" style="color:#c9a84c;margin-right:8px;"></i>観光地マップ</h3>
+      <button class="gmapClose" id="gmapClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="gmapLayout">
+      <div id="googleMap" style="flex:1;"></div>
+      <div class="gmapInfoPanelSide" id="sidePanel">
+        <div style="padding:14px 16px;border-bottom:1px solid rgba(201,168,76,0.15);background:rgba(201,168,76,0.05);">
+          <p style="color:#c9a84c;font-size:0.8rem;font-weight:700;">📍 観光スポット一覧</p>
+        </div>
+      </div>
+    </div>
+    <div class="gmapInfoPanel">
+      <div class="infoChip"><i class="fas fa-globe-asia"></i> インドネシア</div>
+      <div class="infoChip" id="modalIslandChip"><i class="fas fa-map-pin"></i> —</div>
+      <div class="infoChip"><i class="fas fa-star"></i> Wonderful Indonesia</div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery UI Dialog container -->
+<div id="iwDialog" title="観光スポット詳細"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- folder JS -->
+<script src="js/common.js"></script>
+
+</body>
+</html>
