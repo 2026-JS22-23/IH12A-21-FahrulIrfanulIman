@@ -4,7 +4,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>リダイレクト中</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: #111;
+      font-family: sans-serif;
+    }
+    #start {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #333;
+      border: 2px solid #555;
+    }
+    #goal {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #333;
+      border: 2px solid #555;
+    }
+    #goal.active {
+      background: #0a0;
+      border-color: #0f0;
+      box-shadow: 0 0 20px #0f0;
+    }
+    #hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #666;
+      font-size: 14px;
+      pointer-events: none;
+    }
+    #link {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+    #link.show {
+      display: block;
+    }
+    #link a {
+      color: #0f0;
+      font-size: 20px;
+      text-decoration: none;
+    }
+    #link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <p><a href="JS22-05-IH12A-21-ﾌｧｰﾙﾙ･ｲﾙﾌｧﾇﾙ･ｲﾏﾝ/index.html">ページを開く</a></p>
+  <div id="start"></div>
+  <div id="goal"></div>
+  <div id="hint">● から ● へマウスを動かしてください</div>
+  <div id="link">
+    <p><a href="JS22-05-IH12A-21-ﾌｧｰﾙﾙ･ｲﾙﾌｧﾇﾙ･ｲﾏﾝ/index.html">ページを開く</a></p>
+  </div>
+
+  <script>
+    const start = document.getElementById('start');
+    const goal = document.getElementById('goal');
+    const link = document.getElementById('link');
+    const hint = document.getElementById('hint');
+
+    let dragging = false;
+    let reached = false;
+
+    start.addEventListener('mousedown', () => {
+      dragging = true;
+      start.style.background = '#555';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!dragging || reached) return;
+
+      const r = goal.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+      if (dist < 40) {
+        goal.classList.add('active');
+        reached = true;
+        dragging = false;
+        hint.style.display = 'none';
+        link.classList.add('show');
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!reached) {
+        dragging = false;
+        start.style.background = '#333';
+      }
+    });
+  </script>
+</body>
 </html>
